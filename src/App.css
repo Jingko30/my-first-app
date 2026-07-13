@@ -4,13 +4,13 @@
 
 body {
   margin: 0;
-  background: #1a1a2e;
+  background: #121218;
   font-family: 'Segoe UI', sans-serif;
 }
 
 .app {
   min-height: 100vh;
-  color: #eee;
+  color: #f5f5f7;
   padding: 24px;
   display: flex;
   flex-direction: column;
@@ -21,10 +21,14 @@ body {
   align-self: flex-start;
   background: none;
   border: none;
-  color: #8888ff;
+  color: #a29bfe;
   font-size: 14px;
   cursor: pointer;
   margin-bottom: 16px;
+}
+
+.back-button:hover {
+  color: #c7c2ff;
 }
 
 .home {
@@ -35,6 +39,7 @@ body {
 .home h1 {
   text-align: center;
   margin-bottom: 24px;
+  color: #ffffff;
 }
 
 .app-list {
@@ -44,11 +49,11 @@ body {
 }
 
 .app-card {
-  background: #22223a;
-  border: 1px solid #333356;
+  background: #26263a;
+  border: 1px solid #45456b;
   border-radius: 12px;
   padding: 16px;
-  color: #eee;
+  color: #f5f5f7;
   text-align: left;
   cursor: pointer;
   display: flex;
@@ -57,17 +62,19 @@ body {
 }
 
 .app-card:hover {
-  background: #2a2a48;
+  background: #2f2f48;
+  border-color: #7c6cf0;
 }
 
 .app-name {
   font-size: 18px;
   font-weight: 600;
+  color: #ffffff;
 }
 
 .app-desc {
   font-size: 13px;
-  color: #999;
+  color: #b4b4c8;
 }
 
 .clock, .calculator {
@@ -75,26 +82,33 @@ body {
   margin-top: 40px;
 }
 
+.clock h2, .calculator h2 {
+  color: #ffffff;
+}
+
 .clock-display {
   font-size: 48px;
   font-weight: bold;
   letter-spacing: 2px;
   margin-top: 16px;
+  color: #a29bfe;
 }
 
 .clock-date {
-  color: #999;
+  color: #c4c4d8;
   margin-top: 8px;
 }
 
 .calc-display {
-  background: #0f0f1e;
+  background: #0a0a10;
+  border: 1px solid #45456b;
   border-radius: 8px;
   padding: 16px;
   font-size: 32px;
   text-align: right;
   margin-bottom: 12px;
   width: 260px;
+  color: #ffffff;
 }
 
 .calc-grid {
@@ -107,17 +121,23 @@ body {
 .calc-btn {
   padding: 16px;
   font-size: 18px;
-  border: none;
+  border: 1px solid #45456b;
   border-radius: 8px;
-  background: #333356;
-  color: #eee;
+  background: #26263a;
+  color: #f5f5f7;
   cursor: pointer;
 }
 
-.calc-btn.op {
-  background: #6c5ce7;
+.calc-btn:hover {
+  background: #2f2f48;
 }
 
-.calc-btn:hover {
-  opacity: 0.85;
+.calc-btn.op {
+  background: #7c6cf0;
+  border-color: #7c6cf0;
+  color: #ffffff;
+}
+
+.calc-btn.op:hover {
+  background: #8f80f5;
 }
