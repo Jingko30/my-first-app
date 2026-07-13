@@ -1,34 +1,86 @@
+:root[data-theme='dark'] {
+  --bg: #121218;
+  --text: #f5f5f7;
+  --text-sub: #b4b4c8;
+  --card-bg: #26263a;
+  --card-border: #45456b;
+  --card-hover: #2f2f48;
+  --accent: #7c6cf0;
+  --accent-hover: #8f80f5;
+  --display-bg: #0a0a10;
+  --toggle-bg: #5c5c78;
+  --toggle-text: #ffffff;
+  --toggle-border: #7d7d9e;
+}
+
+:root[data-theme='light'] {
+  --bg: #f5f5f7;
+  --text: #1a1a2e;
+  --text-sub: #6b6b80;
+  --card-bg: #ffffff;
+  --card-border: #d8d8e8;
+  --card-hover: #ececf5;
+  --accent: #6c5ce7;
+  --accent-hover: #5a4bd4;
+  --display-bg: #ffffff;
+  --toggle-bg: #3a3a4e;
+  --toggle-text: #ffffff;
+  --toggle-border: #2a2a3a;
+}
+
 * {
   box-sizing: border-box;
 }
 
 body {
   margin: 0;
-  background: #121218;
+  background: var(--bg);
   font-family: 'Segoe UI', sans-serif;
+  transition: background 0.2s ease;
 }
 
 .app {
   min-height: 100vh;
-  color: #f5f5f7;
+  color: var(--text);
   padding: 24px;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.back-button {
-  align-self: flex-start;
-  background: none;
-  border: none;
-  color: #a29bfe;
-  font-size: 14px;
-  cursor: pointer;
+.top-bar {
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 16px;
 }
 
+.back-button {
+  background: none;
+  border: none;
+  color: var(--accent);
+  font-size: 14px;
+  cursor: pointer;
+}
+
 .back-button:hover {
-  color: #c7c2ff;
+  color: var(--accent-hover);
+}
+
+.theme-toggle {
+  background: var(--toggle-bg);
+  border: 1px solid var(--toggle-border);
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-size: 13px;
+  color: var(--toggle-text);
+  cursor: pointer;
+}
+
+.theme-toggle:hover {
+  filter: brightness(1.1);
 }
 
 .home {
@@ -39,7 +91,6 @@ body {
 .home h1 {
   text-align: center;
   margin-bottom: 24px;
-  color: #ffffff;
 }
 
 .app-list {
@@ -49,11 +100,11 @@ body {
 }
 
 .app-card {
-  background: #26263a;
-  border: 1px solid #45456b;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
   border-radius: 12px;
   padding: 16px;
-  color: #f5f5f7;
+  color: var(--text);
   text-align: left;
   cursor: pointer;
   display: flex;
@@ -62,19 +113,18 @@ body {
 }
 
 .app-card:hover {
-  background: #2f2f48;
-  border-color: #7c6cf0;
+  background: var(--card-hover);
+  border-color: var(--accent);
 }
 
 .app-name {
   font-size: 18px;
   font-weight: 600;
-  color: #ffffff;
 }
 
 .app-desc {
   font-size: 13px;
-  color: #b4b4c8;
+  color: var(--text-sub);
 }
 
 .clock, .calculator {
@@ -82,33 +132,29 @@ body {
   margin-top: 40px;
 }
 
-.clock h2, .calculator h2 {
-  color: #ffffff;
-}
-
 .clock-display {
   font-size: 48px;
   font-weight: bold;
   letter-spacing: 2px;
   margin-top: 16px;
-  color: #a29bfe;
+  color: var(--accent);
 }
 
 .clock-date {
-  color: #c4c4d8;
+  color: var(--text-sub);
   margin-top: 8px;
 }
 
 .calc-display {
-  background: #0a0a10;
-  border: 1px solid #45456b;
+  background: var(--display-bg);
+  border: 1px solid var(--card-border);
   border-radius: 8px;
   padding: 16px;
   font-size: 32px;
   text-align: right;
   margin-bottom: 12px;
   width: 260px;
-  color: #ffffff;
+  color: var(--text);
 }
 
 .calc-grid {
@@ -121,23 +167,27 @@ body {
 .calc-btn {
   padding: 16px;
   font-size: 18px;
-  border: 1px solid #45456b;
+  border: 1px solid var(--card-border);
   border-radius: 8px;
-  background: #26263a;
-  color: #f5f5f7;
+  background: var(--card-bg);
+  color: var(--text);
   cursor: pointer;
 }
 
 .calc-btn:hover {
-  background: #2f2f48;
+  background: var(--card-hover);
 }
 
 .calc-btn.op {
-  background: #7c6cf0;
-  border-color: #7c6cf0;
+  background: var(--accent);
+  border-color: var(--accent);
   color: #ffffff;
 }
 
 .calc-btn.op:hover {
-  background: #8f80f5;
+  background: var(--accent-hover);
+}
+
+h1, h2 {
+  color: var(--text);
 }
