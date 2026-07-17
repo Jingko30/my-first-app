@@ -2,6 +2,7 @@ function Home({ onSelect }) {
   const apps = [
     { id: 'clock', name: '時計', desc: '現在時刻をリアルタイム表示' },
     { id: 'calculator', name: '電卓', desc: '四則演算ができる電卓' },
+    { id: 'gacha', name: '宝晶石予測', desc: 'ガチャの引き時をチェック' },
   ]
 
   return (

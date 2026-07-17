@@ -11,6 +11,7 @@
   --toggle-bg: #5c5c78;
   --toggle-text: #ffffff;
   --toggle-border: #7d7d9e;
+  --date-icon-filter: invert(1);
 }
 
 :root[data-theme='light'] {
@@ -26,6 +27,7 @@
   --toggle-bg: #3a3a4e;
   --toggle-text: #ffffff;
   --toggle-border: #2a2a3a;
+  --date-icon-filter: none;
 }
 
 * {
@@ -127,7 +129,8 @@ body {
   color: var(--text-sub);
 }
 
-.clock, .calculator {
+.clock,
+.calculator {
   text-align: center;
   margin-top: 40px;
 }
@@ -188,6 +191,7 @@ body {
   background: var(--accent-hover);
 }
 
-h1, h2 {
+h1,
+h2 {
   color: var(--text);
 }

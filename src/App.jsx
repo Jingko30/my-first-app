@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import Home from './Home'
 import Clock from './Clock'
 import Calculator from './Calculator'
+import GachaForecast from './GachaForecast'
 import './App.css'
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
       {page === 'home' && <Home onSelect={setPage} />}
       {page === 'clock' && <Clock />}
       {page === 'calculator' && <Calculator />}
+      {page === 'gacha' && <GachaForecast />}
     </div>
   )
 }
