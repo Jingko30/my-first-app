@@ -230,3 +230,15 @@
   filter: var(--date-icon-filter);
   cursor: pointer;
 }
+.gf-ticket-note {
+  color: var(--text-sub);
+  font-size: 13px;
+  margin: 0 0 8px;
+}
+
+.gf-draw-breakdown {
+  display: block;
+  font-size: 12px;
+  color: var(--text-sub);
+  margin-top: 2px;
+}

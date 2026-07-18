@@ -29,6 +29,7 @@ function GachaForecast() {
   const [currentCrystals, setCurrentCrystals] = useState(
     initial.currentCrystals ?? 0,
   )
+  const [gachaTickets, setGachaTickets] = useState(initial.gachaTickets ?? 0)
   const [gachaCost, setGachaCost] = useState(initial.gachaCost ?? 300)
   const [events, setEvents] = useState(initial.events ?? [])
   const [gachaDates, setGachaDates] = useState(initial.gachaDates ?? [])
@@ -37,6 +38,7 @@ function GachaForecast() {
   const [viewMonth, setViewMonth] = useState(today.getMonth())
 
   // 入手予定フォームの入力state
+  const [eventItemType, setEventItemType] = useState('crystal')
   const [eventType, setEventType] = useState('once')
   const [eventLabel, setEventLabel] = useState('')
   const [eventAmount, setEventAmount] = useState('')
@@ -52,9 +54,15 @@ function GachaForecast() {
   const [gachaLabel, setGachaLabel] = useState('')
 
   useEffect(() => {
-    const data = { currentCrystals, gachaCost, events, gachaDates }
+    const data = {
+      currentCrystals,
+      gachaTickets,
+      gachaCost,
+      events,
+      gachaDates,
+    }
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data))
-  }, [currentCrystals, gachaCost, events, gachaDates])
+  }, [currentCrystals, gachaTickets, gachaCost, events, gachaDates])
 
   const addEvent = () => {
     if (!eventLabel || !eventAmount) return
@@ -63,6 +71,7 @@ function GachaForecast() {
       label: eventLabel,
       amount: Number(eventAmount),
       type: eventType,
+      itemType: eventItemType,
     }
     const newEvent =
       eventType === 'once'
@@ -122,13 +131,27 @@ function GachaForecast() {
     setViewMonth(d.getMonth())
   }
 
+  const crystalEvents = events.filter(
+    (ev) => (ev.itemType ?? 'crystal') === 'crystal',
+  )
+  const ticketEvents = events.filter((ev) => ev.itemType === 'ticket')
+
   const selectedBalance = calculateBalance(
     selectedDateKey,
     currentCrystals,
-    events,
+    crystalEvents,
     today,
   )
-  const drawCount = gachaCost > 0 ? Math.floor(selectedBalance / gachaCost) : 0
+  const selectedTickets = calculateBalance(
+    selectedDateKey,
+    gachaTickets,
+    ticketEvents,
+    today,
+  )
+
+  const drawCountFromCrystals =
+    gachaCost > 0 ? Math.floor(selectedBalance / gachaCost) : 0
+  const totalDrawCount = drawCountFromCrystals + selectedTickets
   const gachaDatesInView = gachaDates.filter((g) => g.date <= selectedDateKey)
 
   return (
@@ -137,7 +160,7 @@ function GachaForecast() {
 
       <div className="gf-section">
         <label className="gf-label">
-          現在の所持数
+          現在の宝晶石所持数
           <input
             type="number"
             value={currentCrystals}
@@ -154,10 +177,41 @@ function GachaForecast() {
             className="gf-input"
           />
         </label>
+        <label className="gf-label">
+          現在のガチャチケット所持数
+          <input
+            type="number"
+            value={gachaTickets}
+            onChange={(e) => setGachaTickets(Number(e.target.value))}
+            className="gf-input"
+          />
+        </label>
       </div>
 
       <div className="gf-section gf-form">
         <h3>入手予定を登録</h3>
+        <div className="gf-type-toggle">
+          <button
+            className={
+              eventItemType === 'crystal'
+                ? 'gf-toggle-btn active'
+                : 'gf-toggle-btn'
+            }
+            onClick={() => setEventItemType('crystal')}
+          >
+            宝晶石
+          </button>
+          <button
+            className={
+              eventItemType === 'ticket'
+                ? 'gf-toggle-btn active'
+                : 'gf-toggle-btn'
+            }
+            onClick={() => setEventItemType('ticket')}
+          >
+            ガチャチケット
+          </button>
+        </div>
         <div className="gf-type-toggle">
           <button
             className={
@@ -271,7 +325,9 @@ function GachaForecast() {
             {events.map((ev) => (
               <li key={ev.id} className="gf-list-item">
                 <span>
-                  {ev.label}({ev.amount}個・
+                  [{ev.itemType === 'ticket' ? 'チケット' : '宝晶石'}]{' '}
+                  {ev.label}({ev.amount}
+                  {ev.itemType === 'ticket' ? '枚' : '個'}・
                   {ev.type === 'once'
                     ? ev.date
                     : ev.frequency === 'daily'
@@ -367,8 +423,11 @@ function GachaForecast() {
               >
                 <span className="gf-day-number">{d.getDate()}</span>
                 <span className="gf-day-marks">
-                  {dayEvents.length > 0 && (
-                    <span className="gf-mark-crystal">💎</span>
+                  {dayEvents.some(
+                    (ev) => (ev.itemType ?? 'crystal') === 'crystal',
+                  ) && <span className="gf-mark-crystal">💎</span>}
+                  {dayEvents.some((ev) => ev.itemType === 'ticket') && (
+                    <span className="gf-mark-crystal">🎫</span>
                   )}
                   {dayGacha.length > 0 && (
                     <span className="gf-mark-gacha">⭐</span>
@@ -383,9 +442,15 @@ function GachaForecast() {
       <div className="gf-section gf-result">
         <h3>{selectedDateKey} 時点の予測</h3>
         <p className="gf-balance">
-          所持数: {selectedBalance.toLocaleString()} 個
+          宝晶石: {selectedBalance.toLocaleString()} 個
         </p>
-        <p className="gf-draw-count">ガチャ {drawCount} 回分</p>
+        <p className="gf-ticket-note">ガチャチケット: {selectedTickets} 枚</p>
+        <p className="gf-draw-count">
+          引ける回数: 合計 {totalDrawCount} 回
+          <span className="gf-draw-breakdown">
+            (宝晶石 {drawCountFromCrystals} 回 + チケット {selectedTickets} 回)
+          </span>
+        </p>
 
         {gachaDatesInView.length > 0 && (
           <div className="gf-gacha-note">
